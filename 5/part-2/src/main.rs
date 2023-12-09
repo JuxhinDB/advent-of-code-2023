@@ -70,7 +70,7 @@ fn main() -> Result<()> {
 
     seeds.into_iter().for_each(|seed| {
         println!("testing range {}..{}", seed.0, seed.0 + seed.1);
-        for seed in seed.0..=(seed.0 + seed.1) {
+        for seed in seed.0..(seed.0 + seed.1) {
             let location = map_alamac.iter().fold(seed, |mut lookup, (_, map)| {
                 for (src, (dst, len)) in map.into_iter() {
                     if (src..&(src + len)).contains(&&lookup) {
@@ -81,7 +81,8 @@ fn main() -> Result<()> {
                 lookup
             });
 
-            if location <= min_loc {
+            if location < min_loc {
+                println!("found new min for {seed}: {location}");
                 min_loc = location;
             }
         }

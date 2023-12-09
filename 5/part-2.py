@@ -44,7 +44,7 @@ with open(sys.argv[1]) as input_:
             dst, src, len_ = tuple([int(v) for v in record])
             map_alamac[cur_map_str][src] = (dst, len_)
 
-    locations = [] 
+    min_loc = sys.maxsize
     for seed in seeds:
         print(f'trying seed: {seed}')
         # We lazy generate the range here to avoid bloating
@@ -55,7 +55,9 @@ with open(sys.argv[1]) as input_:
             cur_loc = seed
             for (k, v) in map_alamac.items():
                 cur_loc = map_fetch(v, cur_loc)
-            locations.append(cur_loc)
+
+            if cur_loc < min_loc:
+                min_loc = cur_loc
                 
-    print(f'Lowest location number is {min(locations)}')
+    print(f'Lowest location number is {min_loc}')
 
